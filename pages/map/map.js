@@ -1,20 +1,19 @@
-let availableKeywords = [
-    "Курский вокзал",
-    "НИТУ МИСИС",
-    "Метро Таганская",
-    "Ул. Земляной Вал",
-    "Ул. Каменщики М.",
-    "Пр-т Гагарина",
-    "13ая Городская Больница",
-    "Парковка МГУ",
-    "Сокольники",
-    "Парк Горького",
-    "Метро Люблино",
-    "Парковка МЭИ"
-];
+const parkingTitle = document.querySelector(".active__title");
+const parkingAdress = document.querySelector(".active__adress");
+const parkingPlaces = document.querySelector(".active__places");
 
+const bottom = document.querySelector(".search__bottom");
 const resultBox = document.querySelector(".box__result");
 const inputBox = document.getElementById("input-box");
+
+const booking = document.querySelector(".booking");
+const bookingTitle = document.querySelector(".booking__title");
+const bookingAdress = document.querySelector(".booking__adress");
+
+const bookingCloseBtn = document.querySelector(".top__icon");
+bookingCloseBtn.addEventListener("click", function () {
+    booking.classList.toggle("active");
+})
 
 inputBox.onkeyup = function () {
     let result = [];
@@ -23,8 +22,6 @@ inputBox.onkeyup = function () {
         result = availableKeywords.filter((keyword) => {
             return keyword.toLowerCase().includes(input.toLowerCase());
         });
-
-        // console.log(result);
     }
 
     display(result);
@@ -50,6 +47,35 @@ function selectInput(list) {
 const bottomActive = document.querySelector(".bottom__active");
 const bottomBtn = document.querySelector(".bottom__btn");
 
+bottomBtn.addEventListener("click", function () {
+    booking.classList.toggle("active");
+})
+
+const searchBtn = document.querySelector(".search__btn");
+
+searchBtn.addEventListener("click", function () {
+    console.log(inputBox.value);
+    bottom.classList.toggle("active");
+    bottomActive.classList.toggle("active");
+    bottomBtn.classList.toggle("active");
+    for (let i = 0; i < parkingDots.length; i++) {
+        if (inputBox.value === parkingDots[i].name) {
+            parkingTitle.innerHTML = parkingDots[i].name;
+            parkingAdress.innerHTML = parkingDots[i].adress;
+
+            let count = 0;
+            for (key in parkingDots[i].parking) {
+                count++;
+            }
+
+            parkingPlaces.innerHTML = count;
+        }
+
+        bookingTitle.innerHTML = parkingDots[i].name;
+        bookingAdress.innerHTML = parkingDots[i].adress;
+    }
+})
+
 ymaps.ready(init);
 
 let Moscow = [55.7522, 37.6156];
@@ -67,6 +93,13 @@ const parkingDots = [
             3: "свободно",
             4: "занято",
             5: "свободно",
+            6: "свободно",
+            7: "свободно",
+            8: "свободно",
+            9: "занято",
+            10: "свободно",
+            11: "занято",
+            12: "свободно",
         },
     },
     {
@@ -80,7 +113,14 @@ const parkingDots = [
             2: "занято",
             3: "свободно",
             4: "занято",
-            5: "занято",
+            5: "свободно",
+            6: "занято",
+            7: "свободно",
+            8: "занято",
+            9: "свободно",
+            10: "занято",
+            11: "свободно",
+            12: "занято",
         },
     },
     {
@@ -95,6 +135,13 @@ const parkingDots = [
             3: "занято",
             4: "занято",
             5: "свободно",
+            6: "занято",
+            7: "занято",
+            8: "занято",
+            9: "занято",
+            10: "свободно",
+            11: "свободно",
+            12: "занято",
         },
     },
     {
@@ -109,11 +156,26 @@ const parkingDots = [
             3: "занято",
             4: "занято",
             5: "свободно",
+            6: "занято",
+            7: "занято",
+            8: "занято",
+            9: "занято",
+            10: "свободно",
+            11: "свободно",
+            12: "занято",
         },
     },
 ]
 
-console.log(parkingDots[0].parking.keys().length);
+let availableKeywords = [];
+
+for (let i = 0; i < parkingDots.length; i++) {
+    availableKeywords.push(parkingDots[i].name)
+};
+
+console.log(availableKeywords);
+
+console.log(parkingDots[0].parking);
 
 console.log(parkingDots.length);
 
@@ -149,12 +211,18 @@ function init() {
             bottomActive.classList.toggle("active");
             bottomBtn.classList.toggle("active");
 
-            const parkingTitle = document.querySelector(".active__title");
             parkingTitle.innerHTML = parkingDots[i].name;
-
-            const parkingAdress = document.querySelector(".active__adress");
             parkingAdress.innerHTML = parkingDots[i].adress;
 
+            let count = 0;
+            for (key in parkingDots[i].parking) {
+                count++;
+            }
+
+            parkingPlaces.innerHTML = count;
+
+            bookingTitle.innerHTML = parkingDots[i].name;
+            bookingAdress.innerHTML = parkingDots[i].adress;
         })
 
         map.geoObjects.add(placemark);
@@ -162,9 +230,6 @@ function init() {
 
     console.log(map.geoObjects);
 }
-
-const bottom = document.querySelector(".search__bottom");
-const arrow = document.querySelector(".bottom__arrow i");
 
 const numOfAvailable = document.querySelector(".numOfAvailable");
 const wordOfAvailable = document.querySelector(".wordOfAvailable");
@@ -176,11 +241,11 @@ function numAndWord() {
     let numm = numOfAvailable.innerHTML;
     let need = numm[numm.length - 1];
     if (need === "1") {
-        wordOfAvailable.innerHTML = "Парковка";
+        wordOfAvailable.innerHTML = "парковка";
     } else if (need <= "4") {
-        wordOfAvailable.innerHTML = "Парковки";
+        wordOfAvailable.innerHTML = "парковки";
     } else {
-        wordOfAvailable.innerHTML = "Парковок";
+        wordOfAvailable.innerHTML = "парковок";
     }
 
     if (len <= 10) {
