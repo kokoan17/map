@@ -73,6 +73,27 @@ searchBtn.addEventListener("click", function () {
 
         bookingTitle.innerHTML = parkingDots[i].name;
         bookingAdress.innerHTML = parkingDots[i].adress;
+
+        let k = 0;
+        for (key in parkingDots[i].parking) {
+            k++;
+            const bookingPlace = document.createElement("div");
+            bookingPlace.classList.add("booking__place");
+
+            const placeNum = document.createElement("div");
+            placeNum.classList.add("placeNum");
+
+
+            const placeStatus = document.createElement("div");
+            placeStatus.classList.add("placeStatus");
+
+            bookingPlace.appendChild(placeNum);
+            bookingPlace.appendChild(placeStatus);
+
+            if (k <= 6) {
+
+            }
+        }
     }
 })
 

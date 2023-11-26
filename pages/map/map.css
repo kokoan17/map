@@ -108,13 +108,21 @@ body {
 }
 
 .search__bottom.active {
-    height: 38%;
+    height: 40%;
 }
 
 .bottom__static {
     padding: 10px;
     background-color: white;
     border-radius: 10px;
+}
+
+.static__load {
+    margin-top: 3px;
+}
+
+.active__adress {
+    margin: 3px 0 5px 0;
 }
 
 .bottom__btn {
